@@ -3,16 +3,30 @@ package com.cep.corporateeventplanner;
 import com.cep.corporateeventplanner.model.Event;
 import com.cep.corporateeventplanner.model.Purchase;
 import com.cep.corporateeventplanner.model.Task;
+import com.cep.corporateeventplanner.service.EventService;
+import com.cep.corporateeventplanner.service.TaskService;
+import com.cep.corporateeventplanner.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Transactional
 @Component
 public class SeedData implements CommandLineRunner {
+
+    @Autowired
+    EventService eventService;
+
+    @Autowired
+    TaskService taskService;
+
+
+
     @Override
     public void run(String... args) throws Exception {
         Event event1 = new Event();
@@ -23,9 +37,11 @@ public class SeedData implements CommandLineRunner {
         event1.setDescription("Take the sales team on a teambuilding getaway in Hawaii");
         List<Task> taskList1 = new ArrayList<>();
         taskList1.add(new Task("Reservations","Make Hotel Reservations", "John", false, "8-1-2019", "Service", event1,
-                new Purchase("Reserve Hotel Rooms", "Mariott Hotel", "Judy", "judyisawesome@email.com", "$3,000")));
+                Arrays.asList(new Purchase("Reserve Hotel Rooms", "Mariott Hotel", "Judy", "judyisawesome@email.com", "$3,000"))));
         taskList1.add(new Task("RSVP", "Have all employees either RSVP or opt out", "Michelle", false, "7-15-2019", "Task", event1));
         event1.setTasklist(taskList1);
+
+        eventService.create(event1);
 
     }
 }

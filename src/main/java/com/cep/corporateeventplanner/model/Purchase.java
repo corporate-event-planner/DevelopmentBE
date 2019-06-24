@@ -1,12 +1,28 @@
 package com.cep.corporateeventplanner.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Generated;
+
+import javax.persistence.*;
+
+@Entity
 public class Purchase {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long purchaseid;
+
+
     private String description;
     private String vendorname;
     private String pointofcontact;
     private String email;
     private String price;
     private long qty;
+
+    @ManyToOne
+    @JoinColumn(name = "purchase")
+    @JsonIgnoreProperties(value = "purchase")
+    private Task task;
 
     public Purchase() {
     }
@@ -26,6 +42,32 @@ public class Purchase {
         this.pointofcontact = pointofcontact;
         this.email = email;
         this.price = price;
+    }
+
+    public Purchase(String description, String vendorname, String pointofcontact, String email, String price, long qty, Task task) {
+        this.description = description;
+        this.vendorname = vendorname;
+        this.pointofcontact = pointofcontact;
+        this.email = email;
+        this.price = price;
+        this.qty = qty;
+        this.task = task;
+    }
+
+    public long getPurchaseid() {
+        return purchaseid;
+    }
+
+    public void setPurchaseid(long purchaseid) {
+        this.purchaseid = purchaseid;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
     }
 
     public String getDescription() {
