@@ -17,14 +17,18 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 import javax.annotation.Resource;
 
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
 
-    @Resource(name = "")
+    @Autowired
     private UserDetailsService userDetailsService;
 
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return super.userDetailsService();
+    }
 
     @Override
     @Bean
