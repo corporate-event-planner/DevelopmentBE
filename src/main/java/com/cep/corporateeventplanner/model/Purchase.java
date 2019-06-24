@@ -75,4 +75,16 @@ public class Purchase {
     public void setQty(long qty) {
         this.qty = qty;
     }
+
+    @Override
+    public String toString() {
+        return "Purchase{" +
+                "description='" + description + '\'' +
+                ", vendorname='" + vendorname + '\'' +
+                ", pointofcontact='" + pointofcontact + '\'' +
+                ", email='" + email + '\'' +
+                ", price='" + price + '\'' +
+                ", qty=" + qty +
+                '}';
+    }
 }
