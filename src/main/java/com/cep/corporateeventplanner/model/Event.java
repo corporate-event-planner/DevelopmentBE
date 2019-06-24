@@ -3,6 +3,7 @@ package com.cep.corporateeventplanner.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,7 +27,11 @@ public class Event {
 
     @OneToMany(mappedBy = "event")
     @JsonIgnoreProperties(value = "event")
-    private List<Task> tasklist;
+    List<Task> tasklist = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "eventlist")
+    @JsonIgnoreProperties("eventlist")
+    List<User> userlist = new ArrayList<>();
 
     public Event() {
     }
@@ -46,6 +51,24 @@ public class Event {
         this.date = date;
         this.budget = budget;
         this.companyname = companyname;
+    }
+
+    public Event(String name, String description, String date, String budget, String companyname, List<Task> tasklist, List<User> userlist) {
+        this.name = name;
+        this.description = description;
+        this.date = date;
+        this.budget = budget;
+        this.companyname = companyname;
+        this.tasklist = tasklist;
+        this.userlist = userlist;
+    }
+
+    public List<User> getUserlist() {
+        return userlist;
+    }
+
+    public void setUserlist(List<User> userlist) {
+        this.userlist = userlist;
     }
 
     public long getEventid() {
