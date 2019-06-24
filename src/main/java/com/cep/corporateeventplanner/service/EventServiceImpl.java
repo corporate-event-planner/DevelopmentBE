@@ -1,9 +1,11 @@
 package com.cep.corporateeventplanner.service;
 
 import com.cep.corporateeventplanner.model.Event;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service(value = "eventService")
 public class EventServiceImpl implements EventService {
     @Override
     public List<Event> findAll() {

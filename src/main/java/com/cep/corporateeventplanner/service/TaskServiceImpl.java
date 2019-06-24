@@ -1,9 +1,11 @@
 package com.cep.corporateeventplanner.service;
 
 import com.cep.corporateeventplanner.model.Task;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service(value = "taskService")
 public class TaskServiceImpl implements TaskService {
     @Override
     public List<Task> findAll() {
