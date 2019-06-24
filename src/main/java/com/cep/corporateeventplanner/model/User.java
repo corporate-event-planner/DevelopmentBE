@@ -7,6 +7,7 @@ import javax.annotation.processing.Generated;
 import javax.persistence.*;
 import java.sql.Blob;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -34,10 +35,10 @@ public class User
     @Column(nullable = false)
     private String role;
 
-//    @ManyToMany
-//    @JsonIgnoreProperties(value = "userlist")
-//    @JoinTable(name = "userEvents", joinColumns = {@JoinColumn(name = "userid")}, inverseJoinColumns = {@JoinColumn(name = "eventid")})
-//    List<Event> eventlist = new ArrayList<>();
+    @ManyToMany
+    @JsonIgnoreProperties(value = "userlist")
+    @JoinTable(name = "userEvents", joinColumns = {@JoinColumn(name = "userid")}, inverseJoinColumns = {@JoinColumn(name = "eventid")})
+    List<Event> eventlist = new ArrayList<>();
 
     @Lob
     private Blob image;
@@ -54,6 +55,22 @@ public class User
         this.companyname = companyname;
         this.role = role;
         this.image = image;
+    }
+
+    public long getUserid() {
+        return userid;
+    }
+
+    public void setUserid(long userid) {
+        this.userid = userid;
+    }
+
+    public List<Event> getEventlist() {
+        return eventlist;
+    }
+
+    public void setEventlist(List<Event> eventlist) {
+        this.eventlist = eventlist;
     }
 
     public String getUsername()
