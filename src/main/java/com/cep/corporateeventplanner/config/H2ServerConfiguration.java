@@ -2,7 +2,6 @@ package com.cep.corporateeventplanner.config;
 
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,9 +35,9 @@ public class H2ServerConfiguration
      */
     @Bean
     @ConditionalOnExpression("${h2.tcp.enabled:true}")
-    public MetricsProperties.Web.Server h2TcpServer() throws SQLException
+    public Server h2TcpServer() throws SQLException
     {
-        return MetricsProperties.Web.Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", h2TcpPort).start();
+        return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", h2TcpPort).start();
     }
 
     /**
