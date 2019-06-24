@@ -36,10 +36,13 @@ public class SeedData implements CommandLineRunner {
         event1.setName("Teambuilding Trip");
         event1.setDescription("Take the sales team on a teambuilding getaway in Hawaii");
         List<Task> taskList1 = new ArrayList<>();
-        taskList1.add(new Task("Reservations","Make Hotel Reservations", "John", false, "8-1-2019", "Service", event1,
-                Arrays.asList(new Purchase("Reserve Hotel Rooms", "Mariott Hotel", "Judy", "judyisawesome@email.com", "$3,000"))));
+        Task task1 = new Task("Reservations","Make Hotel Reservations", "John", false, "8-1-2019", "Service", event1,
+                Arrays.asList(new Purchase("Reserve Hotel Rooms", "Mariott Hotel", "Judy", "judyisawesome@email.com", "$3,000")));
+        taskService.createNewTask(task1);
+        taskList1.add(task1);
+        event1.getTasklist().add(task1);
         taskList1.add(new Task("RSVP", "Have all employees either RSVP or opt out", "Michelle", false, "7-15-2019", "Task", event1));
-        event1.setTasklist(taskList1);
+
 
         eventService.create(event1);
 
