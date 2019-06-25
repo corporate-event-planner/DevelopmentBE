@@ -38,7 +38,17 @@ public class TaskServiceImpl implements TaskService
     @Override
     public void createNewTask(Task task)
     {
+        Task newTask = new Task();
 
+        newTask.setName(task.getName());
+        newTask.setDuedate(task.getDuedate());
+        newTask.setDescription(task.getDescription());
+        newTask.setCategory(task.getCategory());
+        newTask.setAssigned(task.getAssigned());
+        newTask.setEvent(task.getEvent());
+        newTask.setPurchase(task.getPurchase());
+
+        taskrepo.save(newTask);
     }
 
     @Override
@@ -73,6 +83,7 @@ public class TaskServiceImpl implements TaskService
     @Override
     public void setTaskCompleted(long id)
     {
+
     }
 
     @Override
