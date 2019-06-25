@@ -71,7 +71,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         newUser.setUserRoles(newRoles);
 
         ArrayList<Event> newEvents = new ArrayList<>();
-        newEvents.addAll(user.getEventlist());
+        for (Event event: user.getEventlist()){
+            newEvents.add(event);
+        }
 
         return repo.save(newUser);
     }
@@ -104,5 +106,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         repo.save(currentUser);
         return currentUser;
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return repo.findByUsername(username);
     }
 }

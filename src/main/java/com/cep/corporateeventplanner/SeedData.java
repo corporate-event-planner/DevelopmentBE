@@ -34,7 +34,7 @@ public class SeedData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Role r1 = new Role("user");
+        Role r1 = new Role("USER");
         roleService.save(r1);
 
         List<UserRoles> users = new ArrayList<>();
