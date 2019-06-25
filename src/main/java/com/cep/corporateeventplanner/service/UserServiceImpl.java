@@ -4,12 +4,14 @@ import com.cep.corporateeventplanner.model.Event;
 import com.cep.corporateeventplanner.model.User;
 import com.cep.corporateeventplanner.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
