@@ -1,9 +1,11 @@
 package com.cep.corporateeventplanner.controller;
 
 import com.cep.corporateeventplanner.model.Event;
+import com.cep.corporateeventplanner.model.Task;
 import com.cep.corporateeventplanner.model.User;
 import com.cep.corporateeventplanner.model.UserEvents;
 import com.cep.corporateeventplanner.service.EventService;
+import com.cep.corporateeventplanner.service.TaskService;
 import com.cep.corporateeventplanner.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,9 @@ public class EventController
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    TaskService taskService;
 
     @GetMapping(value = "/events/all", produces = {"application/json"})
     public ResponseEntity<?> getAllEvents(){
@@ -44,12 +49,21 @@ public class EventController
     @PostMapping(value = "/events/new")
     public ResponseEntity<?> postNewEvent(@RequestBody Event event){
         eventService.create(event);
+        for (Task task: event.getTasklist()){
+            task.setEvent(event);
+            taskService.createNewTask(task);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping(value = "/events/edit/{eventid}", produces = {"application/json"})
     public ResponseEntity<?> updateEvent(@PathVariable long eventid, @RequestBody Event event){
+        event.setEventid(eventid);
         eventService.updateEvent(event, eventid);
+        for (Task task: event.getTasklist()){
+            task.setEvent(event);
+            taskService.createNewTask(task);
+        }
         return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
@@ -60,7 +74,7 @@ public class EventController
     }
 
 
-    private boolean checkUserForEvent(User user, Event event){
+/*    private boolean checkUserForEvent(User user, Event event){
         long userid = user.getUserid();
         for (UserEvents eventUser: event.getUserEvents()){
             if (eventUser.getUserE().getUserid() == userid){
@@ -68,5 +82,5 @@ public class EventController
             }
         }
         return false;
-    }
+    }*/
 }

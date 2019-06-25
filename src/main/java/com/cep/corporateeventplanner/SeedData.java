@@ -45,6 +45,30 @@ public class SeedData implements CommandLineRunner {
         user1.setCompanyname("DevelopersAnonymous");
         user1.setEmail("JakeTheDude@Email.com");
 
+        users = new ArrayList<>();
+        users.add(new UserRoles(new User(), r1));
+        User user2 = new User("SamIAm", "password", users);
+        user2.setRole("Frontend Ninja");
+        user2.setCompanyname("DevelopersAnonymous");
+        user2.setEmail("SamIAm@Email.com");
+        userService.save(user2);
+
+        users = new ArrayList<>();
+        users.add(new UserRoles(new User(), r1));
+        User user3 = new User("AlejandroTheAnimal", "password", users);
+        user3.setRole("Frontend Ninja");
+        user3.setCompanyname("DevelopersAnonymous");
+        user3.setEmail("AlejandroTheAnimal@Email.com");
+        userService.save(user3);
+
+        users = new ArrayList<>();
+        users.add(new UserRoles(new User(), r1));
+        User user4 = new User("HugoTheGiant", "password", users);
+        user4.setRole("Backend B.A.");
+        user4.setCompanyname("DevelopersAnonymous");
+        user4.setEmail("HugoTheGiant@Email.com");
+        userService.save(user4);
+
 
         Event event1 = new Event();
         event1.setCompanyname("Company A");

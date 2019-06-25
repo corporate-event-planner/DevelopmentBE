@@ -29,9 +29,9 @@ public class Event {
     @JsonIgnoreProperties(value = "event")
     List<Task> tasklist = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "eventlist")
-    @JsonIgnoreProperties("eventlist")
-    List<User> userlist = new ArrayList<>();
+    @OneToMany(mappedBy = "eventU")
+    @JsonIgnoreProperties("eventU")
+    List<UserEvents> userEvents = new ArrayList<>();
 
     public Event() {
     }
@@ -53,22 +53,22 @@ public class Event {
         this.companyname = companyname;
     }
 
-    public Event(String name, String description, String date, String budget, String companyname, List<Task> tasklist, List<User> userlist) {
+    public Event(String name, String description, String date, String budget, String companyname, List<Task> tasklist, List<UserEvents> userEvents) {
         this.name = name;
         this.description = description;
         this.date = date;
         this.budget = budget;
         this.companyname = companyname;
         this.tasklist = tasklist;
-        this.userlist = userlist;
+        this.userEvents = userEvents;
     }
 
-    public List<User> getUserlist() {
-        return userlist;
+    public List<UserEvents> getUserEvents() {
+        return userEvents;
     }
 
-    public void setUserlist(List<User> userlist) {
-        this.userlist = userlist;
+    public void setUserEvents(List<UserEvents> userEvents) {
+        this.userEvents = userEvents;
     }
 
     public long getEventid() {

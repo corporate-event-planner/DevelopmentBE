@@ -1,6 +1,9 @@
 package com.cep.corporateeventplanner.controller;
 
+import com.cep.corporateeventplanner.model.Role;
 import com.cep.corporateeventplanner.model.User;
+import com.cep.corporateeventplanner.model.UserRoles;
+import com.cep.corporateeventplanner.service.RoleService;
 import com.cep.corporateeventplanner.service.UserService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @RestController
 public class UserController {
@@ -31,6 +36,9 @@ public class UserController {
     UserDetailsService userDetailsService;
 
     @Autowired
+    RoleService roleService;
+
+    @Autowired
     AuthenticationManager authenticationManager;
 
     @Autowired
@@ -39,6 +47,12 @@ public class UserController {
 
     @PostMapping(value = "/signup")
     public ResponseEntity<?> handleSignup(@RequestBody User user){
+        Role role = roleService.findByName("USER");
+        User newUser = new User(user.getUsername(), user.getPassword(), new ArrayList<>(Arrays.asList(new UserRoles(new User(), role))));
+        newUser.setEmail(user.getEmail());
+        newUser.setRole(user.getRole());
+        newUser.setImage(user.getImage());
+        newUser.setUserEvents(user.getUserEvents());
         userService.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }

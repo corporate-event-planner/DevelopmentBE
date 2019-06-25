@@ -38,9 +38,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
                         "/signup",
                         "/error"
                 ).permitAll()
-                .antMatchers("/users/**").authenticated()
-                .antMatchers("/events/all").permitAll()
-                .antMatchers("/roles", "/actuator/**", "/**", "/events/**").hasAnyRole("USER")
+                .antMatchers("/users/**", "/events/**").authenticated()
+                .antMatchers("/signup").permitAll()
+                .antMatchers("/roles", "/actuator/**", "/**").hasAnyRole("USER")
                 .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
 
         // http.requiresChannel().anyRequest().requiresSecure();
