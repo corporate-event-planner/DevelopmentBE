@@ -64,4 +64,3 @@ public class Role
         this.userRoles = userRoles;
     }
 }
-

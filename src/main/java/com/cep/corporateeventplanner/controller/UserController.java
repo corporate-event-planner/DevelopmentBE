@@ -17,10 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -74,4 +71,25 @@ public class UserController {
             tokenStore.removeAccessToken(accessToken);
         }
     }
+
+    @PutMapping(value = "/user/{id}")
+    public ResponseEntity<?> updateUser(HttpServletRequest request,
+                                        @RequestBody
+                                                User updateUser,
+                                        @PathVariable
+                                                long id)
+    {
+        userService.update(updateUser, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<?> deleteUserById(HttpServletRequest request,
+                                            @PathVariable
+                                            long id)
+    {
+        userService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

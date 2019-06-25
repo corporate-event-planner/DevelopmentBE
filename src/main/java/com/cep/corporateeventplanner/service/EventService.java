@@ -4,7 +4,8 @@ import com.cep.corporateeventplanner.model.Event;
 
 import java.util.List;
 
-public interface EventService {
+public interface EventService
+{
 
     List<Event> findAll();
 
