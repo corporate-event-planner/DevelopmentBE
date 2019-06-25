@@ -1,6 +1,7 @@
 package com.cep.corporateeventplanner.service;
 
 import com.cep.corporateeventplanner.model.Event;
+import com.cep.corporateeventplanner.model.Purchase;
 import com.cep.corporateeventplanner.model.Task;
 import com.cep.corporateeventplanner.repo.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,16 +41,7 @@ public class TaskServiceImpl implements TaskService
     @Override
     public void createNewTask(Task task)
     {
-        Task newTask = new Task();
-        newTask.setPurchase(task.getPurchase());
-        newTask.setAssigned(task.getAssigned());
-        newTask.setCategory(task.getCategory());
-        newTask.setDescription(task.getDescription());
-        newTask.setDuedate(task.getDuedate());
-        newTask.setName(task.getName());
-        newTask.setEvent(task.getEvent());
-
-        taskrepo.save(newTask);
+        taskrepo.save(task);
     }
 
     @Override

@@ -75,6 +75,7 @@ public class SeedData implements CommandLineRunner {
         taskService.createNewTask(task2);
         event1.getTasklist().add(task2);
         event1.getUserlist().add(user1);
+        user1.getEventlist().add(event1);
         eventService.create(event1);
 
     }
