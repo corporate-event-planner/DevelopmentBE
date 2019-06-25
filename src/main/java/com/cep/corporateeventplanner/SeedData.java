@@ -1,12 +1,7 @@
 package com.cep.corporateeventplanner;
 
-import com.cep.corporateeventplanner.model.Event;
-import com.cep.corporateeventplanner.model.Purchase;
-import com.cep.corporateeventplanner.model.Task;
-import com.cep.corporateeventplanner.service.EventService;
-import com.cep.corporateeventplanner.service.PurchaseService;
-import com.cep.corporateeventplanner.service.TaskService;
-import com.cep.corporateeventplanner.service.UserService;
+import com.cep.corporateeventplanner.model.*;
+import com.cep.corporateeventplanner.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -31,10 +26,36 @@ public class SeedData implements CommandLineRunner {
     UserService userService;
 
     @Autowired
+    RoleService roleService;
+
+    @Autowired
     PurchaseService purchaseService;
 
     @Override
     public void run(String... args) throws Exception {
+
+        Role r1 = new Role("user");
+        roleService.save(r1);
+
+        List<UserRoles> users = new ArrayList<>();
+        users.add(new UserRoles(new User(), r1));
+        User user1 = new User("JakeTheDude", "TurkeyLeg", users);
+//        user1.setUsername("JakeTheDude");
+//        user1.setPassword("TurkeyLeg");
+
+
+        user1.setRole("Backend B.A.");
+        user1.setCompanyname("DevelopersAnonymous");
+        user1.setEmail("JakeTheDude@Email.com");
+
+//        user1.setUserRoles(users);
+//        user1.getUserRoles().add(new UserRoles(user1, r1));
+//        roleService.insertUserRoles(user1.getUserid(), r1.getRoleid());
+        userService.save(user1);
+
+
+
+
         Event event1 = new Event();
         event1.setCompanyname("Company A");
         event1.setDate("8-23-2019");
@@ -53,6 +74,7 @@ public class SeedData implements CommandLineRunner {
         Task task2 = new Task("RSVP", "Have all employees either RSVP or opt out", "Michelle", false, "7-15-2019", "Task", event1);
         taskService.createNewTask(task2);
         event1.getTasklist().add(task2);
+        event1.getUserlist().add(user1);
         eventService.create(event1);
 
     }

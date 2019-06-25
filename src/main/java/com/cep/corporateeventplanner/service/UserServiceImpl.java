@@ -2,17 +2,22 @@ package com.cep.corporateeventplanner.service;
 
 import com.cep.corporateeventplanner.model.Event;
 import com.cep.corporateeventplanner.model.User;
+import com.cep.corporateeventplanner.model.UserRoles;
 import com.cep.corporateeventplanner.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class UserServiceImpl implements UserService {
+@Service(value = "userService")
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     UserRepository repo;
@@ -37,11 +42,38 @@ public class UserServiceImpl implements UserService {
             throw new EntityNotFoundException();
         }
     }
+    @Transactional
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+    {
+        User user = repo.findByUsername(username);
+        if (user == null)
+        {
+            throw new UsernameNotFoundException("Invalid username or password.");
+        }
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.getAuthority());
+    }
 
     @Override
     public User save(User user) {
-        repo.save(user);
-        return user;
+        User newUser = new User();
+        newUser.setUsername(user.getUsername());
+        newUser.setPasswordNoEncrypt(user.getPassword());
+        newUser.setCompanyname(user.getCompanyname());
+        newUser.setEmail(user.getEmail());
+        newUser.setImage(user.getImage());
+        newUser.setRole(user.getRole());
+
+        ArrayList<UserRoles> newRoles = new ArrayList<>();
+        for (UserRoles ur : user.getUserRoles())
+        {
+            newRoles.add(new UserRoles(newUser, ur.getRole()));
+        }
+        newUser.setUserRoles(newRoles);
+
+        ArrayList<Event> newEvents = new ArrayList<>();
+        newEvents.addAll(user.getEventlist());
+
+        return repo.save(newUser);
     }
 
     @Override

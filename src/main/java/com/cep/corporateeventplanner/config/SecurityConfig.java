@@ -30,6 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         return super.userDetailsService();
     }
 
+
+
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception

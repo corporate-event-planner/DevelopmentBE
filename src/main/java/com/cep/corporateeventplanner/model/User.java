@@ -2,6 +2,8 @@ package com.cep.corporateeventplanner.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.annotation.processing.Generated;
 import javax.persistence.*;
@@ -40,6 +42,10 @@ public class User
     @JoinTable(name = "userEvents", joinColumns = {@JoinColumn(name = "userid")}, inverseJoinColumns = {@JoinColumn(name = "eventid")})
     List<Event> eventlist = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties("user")
+    private List<UserRoles> userRoles = new ArrayList<>();
+
     @Lob
     private Blob image;
 
@@ -55,6 +61,25 @@ public class User
         this.companyname = companyname;
         this.role = role;
         this.image = image;
+    }
+
+    public User(String username, String password, List<UserRoles> userRoles)
+    {
+        setUsername(username);
+        setPassword(password);
+        for (UserRoles ur : userRoles)
+        {
+            ur.setUser(this);
+        }
+        this.userRoles = userRoles;
+    }
+
+    public List<UserRoles> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRoles> userRoles) {
+        this.userRoles = userRoles;
     }
 
     public long getUserid() {
@@ -89,6 +114,12 @@ public class User
     }
 
     public void setPassword(String password)
+    {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.password = passwordEncoder.encode(password);
+    }
+
+    public void setPasswordNoEncrypt(String password)
     {
         this.password = password;
     }
@@ -131,5 +162,18 @@ public class User
     public void setImage(Blob image)
     {
         this.image = image;
+    }
+
+    public List<SimpleGrantedAuthority> getAuthority()
+    {
+        List<SimpleGrantedAuthority> rtnList = new ArrayList<>();
+
+        for (UserRoles r : this.userRoles)
+        {
+            String myRole = "ROLE_" + r.getRole().getName().toUpperCase();
+            rtnList.add(new SimpleGrantedAuthority(myRole));
+        }
+
+        return rtnList;
     }
 }

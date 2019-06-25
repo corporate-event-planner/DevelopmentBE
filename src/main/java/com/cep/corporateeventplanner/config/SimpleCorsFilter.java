@@ -2,6 +2,7 @@ package com.cep.corporateeventplanner.config;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -28,7 +29,8 @@ public class SimpleCorsFilter implements Filter
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with, authorization, content-type, access_token");
 
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod()))
+        System.out.println(((HttpServletRequest) req).getMethod());
+        if (HttpMethod.OPTIONS.name().equalsIgnoreCase(((HttpServletRequest) req).getMethod()))
         {
             response.setStatus(HttpServletResponse.SC_OK);
         } else
