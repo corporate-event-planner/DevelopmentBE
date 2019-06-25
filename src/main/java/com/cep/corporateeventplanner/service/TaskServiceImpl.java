@@ -3,7 +3,6 @@ package com.cep.corporateeventplanner.service;
 import com.cep.corporateeventplanner.model.Event;
 import com.cep.corporateeventplanner.model.Task;
 import com.cep.corporateeventplanner.repo.TaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -13,7 +12,6 @@ import java.util.List;
 @Service(value = "taskService")
 public class TaskServiceImpl implements TaskService
 {
-    @Autowired
     TaskRepository taskrepo;
 
     @Override
@@ -40,7 +38,7 @@ public class TaskServiceImpl implements TaskService
     @Override
     public void createNewTask(Task task)
     {
-        taskrepo.save(task);
+
     }
 
     @Override
