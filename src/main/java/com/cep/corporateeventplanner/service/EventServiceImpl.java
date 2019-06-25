@@ -3,6 +3,7 @@ package com.cep.corporateeventplanner.service;
 import com.cep.corporateeventplanner.model.Event;
 import com.cep.corporateeventplanner.model.Task;
 import com.cep.corporateeventplanner.model.User;
+import com.cep.corporateeventplanner.model.UserEvents;
 import com.cep.corporateeventplanner.repo.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,9 +64,9 @@ public class EventServiceImpl implements EventService {
                 currentEvent.getTasklist().add(task);
             }
         }
-        if(event.getUserlist() != null && event.getUserlist().size() > 0){
-            for (User user: event.getUserlist()){
-                currentEvent.getUserlist().add(user);
+        if(event.getUserEvents() != null && event.getUserEvents().size() > 0){
+            for (UserEvents user: event.getUserEvents()){
+                currentEvent.getUserEvents().add(new UserEvents(user.getUserE(), currentEvent));
             }
         }
         repo.save(currentEvent);

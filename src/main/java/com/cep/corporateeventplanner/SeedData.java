@@ -39,21 +39,11 @@ public class SeedData implements CommandLineRunner {
 
         List<UserRoles> users = new ArrayList<>();
         users.add(new UserRoles(new User(), r1));
+
         User user1 = new User("JakeTheDude", "TurkeyLeg", users);
-        //        user1.setUsername("JakeTheDude");
-        //        user1.setPassword("TurkeyLeg");
-
-
         user1.setRole("Backend B.A.");
         user1.setCompanyname("DevelopersAnonymous");
         user1.setEmail("JakeTheDude@Email.com");
-
-        //        user1.setUserRoles(users);
-        //        user1.getUserRoles().add(new UserRoles(user1, r1));
-        //        roleService.insertUserRoles(user1.getUserid(), r1.getRoleid());
-        userService.save(user1);
-
-
 
 
         Event event1 = new Event();
@@ -62,20 +52,18 @@ public class SeedData implements CommandLineRunner {
         event1.setBudget("$10,000");
         event1.setName("Teambuilding Trip");
         event1.setDescription("Take the IT department on a teambuilding getaway in Hawaii");
-        List<Task> taskList1 = new ArrayList<>();
         Purchase purchase1 = new Purchase("Reserve Hotel Rooms", "Mariott Hotel", "Judy", "judyisawesome@email.com", "$3,000");
         Task task1 = new Task("Reservations","Make Hotel Reservations", "John", false, "8-1-2019", "Service", event1,
                 Collections.singletonList(purchase1));
         purchase1.setTask(task1);
         taskService.createNewTask(task1);
-        purchaseService.create(purchase1);
-        taskList1.add(task1);
         event1.getTasklist().add(task1);
         Task task2 = new Task("RSVP", "Have all employees either RSVP or opt out", "Michelle", false, "7-15-2019", "Task", event1);
         taskService.createNewTask(task2);
         event1.getTasklist().add(task2);
-        event1.getUserlist().add(user1);
-        user1.getEventlist().add(event1);
+        event1.getUserEvents().add(new UserEvents(user1, event1));
+        user1.getUserEvents().add(new UserEvents(user1, event1));
+        userService.save(user1);
         eventService.create(event1);
 
     }
