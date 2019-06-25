@@ -2,6 +2,8 @@ package com.cep.corporateeventplanner.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import org.springframework.data.domain.Auditable;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,8 @@ public class Role
             unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "role")
+    @OneToMany(mappedBy = "role",
+               cascade = CascadeType.ALL)
     @JsonIgnoreProperties("role")
     private List<UserRoles> userRoles = new ArrayList<>();
 
@@ -61,3 +64,4 @@ public class Role
         this.userRoles = userRoles;
     }
 }
+
