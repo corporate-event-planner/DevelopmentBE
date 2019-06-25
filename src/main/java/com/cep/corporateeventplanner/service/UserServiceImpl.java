@@ -2,6 +2,7 @@ package com.cep.corporateeventplanner.service;
 
 import com.cep.corporateeventplanner.model.Event;
 import com.cep.corporateeventplanner.model.User;
+import com.cep.corporateeventplanner.model.UserEvents;
 import com.cep.corporateeventplanner.model.UserRoles;
 import com.cep.corporateeventplanner.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,9 +71,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         newUser.setUserRoles(newRoles);
 
-        ArrayList<Event> newEvents = new ArrayList<>();
-        for (Event event: user.getEventlist()){
-            newEvents.add(event);
+        ArrayList<UserEvents> newEvents = new ArrayList<>();
+        for (UserEvents event: user.getUserEvents()){
+            newEvents.add(new UserEvents(newUser, event.getEventU()));
         }
 
         return repo.save(newUser);
@@ -87,9 +88,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (user.getEmail() != null){
             currentUser.setEmail(user.getEmail());
         }
-        if (user.getEventlist() != null && user.getEventlist().size() > 0){
-            for (Event event: user.getEventlist()){
-                currentUser.getEventlist().add(event);
+        if (user.getUserEvents() != null && user.getUserEvents().size() > 0){
+            for (UserEvents event: user.getUserEvents()){
+                currentUser.getUserEvents().add(new UserEvents(currentUser, event.getEventU()));
             }
         }
         if (user.getImage() != null){

@@ -2,6 +2,7 @@ package com.cep.corporateeventplanner.controller;
 
 import com.cep.corporateeventplanner.model.Event;
 import com.cep.corporateeventplanner.model.User;
+import com.cep.corporateeventplanner.model.UserEvents;
 import com.cep.corporateeventplanner.service.EventService;
 import com.cep.corporateeventplanner.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +45,8 @@ public class EventController
 
     private boolean checkUserForEvent(User user, Event event){
         long userid = user.getUserid();
-        for (User eventUser: event.getUserlist()){
-            if (eventUser.getUserid() == userid){
+        for (UserEvents eventUser: event.getUserEvents()){
+            if (eventUser.getUserE().getUserid() == userid){
                 return true;
             }
         }

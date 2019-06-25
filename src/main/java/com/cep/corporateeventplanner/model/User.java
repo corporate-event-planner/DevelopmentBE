@@ -37,10 +37,9 @@ public class User
     @Column(nullable = false)
     private String role;
 
-    @ManyToMany
-    @JsonIgnoreProperties(value = "userlist")
-    @JoinTable(name = "userEvents", joinColumns = {@JoinColumn(name = "userid")}, inverseJoinColumns = {@JoinColumn(name = "eventid")})
-    List<Event> eventlist = new ArrayList<>();
+    @OneToMany(mappedBy = "userE")
+    @JsonIgnoreProperties("userE")
+    List<UserEvents> userEvents = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties("user")
@@ -88,14 +87,6 @@ public class User
 
     public void setUserid(long userid) {
         this.userid = userid;
-    }
-
-    public List<Event> getEventlist() {
-        return eventlist;
-    }
-
-    public void setEventlist(List<Event> eventlist) {
-        this.eventlist = eventlist;
     }
 
     public String getUsername()
@@ -162,6 +153,14 @@ public class User
     public void setImage(Blob image)
     {
         this.image = image;
+    }
+
+    public List<UserEvents> getUserEvents() {
+        return userEvents;
+    }
+
+    public void setUserEvents(List<UserEvents> userEvents) {
+        this.userEvents = userEvents;
     }
 
     public List<SimpleGrantedAuthority> getAuthority()
