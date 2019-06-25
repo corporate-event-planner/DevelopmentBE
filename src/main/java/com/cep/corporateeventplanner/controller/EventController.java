@@ -11,9 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class EventController
@@ -35,11 +33,30 @@ public class EventController
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Event event = eventService.findById(eventid);
         User user = userService.findByUsername(userDetails.getUsername());
-        if (checkUserForEvent(user, event)){
+        return new ResponseEntity<>(event, HttpStatus.OK);
+/*        if (checkUserForEvent(user, event)){
             return new ResponseEntity<>(event, HttpStatus.OK);
         }else{
             throw new AuthorizationServiceException("User not authorized");
-        }
+        }*/
+    }
+
+    @PostMapping(value = "/events/new")
+    public ResponseEntity<?> postNewEvent(@RequestBody Event event){
+        eventService.create(event);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/events/edit/{eventid}", produces = {"application/json"})
+    public ResponseEntity<?> updateEvent(@PathVariable long eventid, @RequestBody Event event){
+        eventService.updateEvent(event, eventid);
+        return new ResponseEntity<>(event, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/events/delete/{eventid}")
+    public ResponseEntity<?> deleteEvent(@PathVariable long eventid){
+        eventService.deleteEvent(eventid);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
