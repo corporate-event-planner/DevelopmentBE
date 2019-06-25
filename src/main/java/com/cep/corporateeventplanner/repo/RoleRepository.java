@@ -20,7 +20,3 @@ public interface RoleRepository extends CrudRepository<Role, Long>
 
     Role findByNameIgnoreCase(String name);
 }
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes

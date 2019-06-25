@@ -1,10 +1,8 @@
 package com.cep.corporateeventplanner.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-<<<<<<< Updated upstream
-=======
+
 import org.springframework.data.domain.Auditable;
->>>>>>> Stashed changes
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,12 +20,8 @@ public class Role
             unique = true)
     private String name;
 
-<<<<<<< Updated upstream
-    @OneToMany(mappedBy = "role")
-=======
     @OneToMany(mappedBy = "role",
                cascade = CascadeType.ALL)
->>>>>>> Stashed changes
     @JsonIgnoreProperties("role")
     private List<UserRoles> userRoles = new ArrayList<>();
 
@@ -69,9 +63,5 @@ public class Role
     {
         this.userRoles = userRoles;
     }
-<<<<<<< Updated upstream
 }
-=======
 
-}
->>>>>>> Stashed changes

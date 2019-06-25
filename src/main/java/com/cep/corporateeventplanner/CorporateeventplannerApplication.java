@@ -12,10 +12,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableJpaAuditing
 @SpringBootApplication
 @EnableSwagger2
-public class CorporateeventplannerApplication {
+public class CorporateeventplannerApplication
+{
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         ApplicationContext ctx = SpringApplication.run(CorporateeventplannerApplication.class, args);
 
         DispatcherServlet dispatcherServlet = (DispatcherServlet)ctx.getBean("dispatcherServlet");

@@ -3,6 +3,7 @@ package com.cep.corporateeventplanner.service;
 import com.cep.corporateeventplanner.model.Event;
 import com.cep.corporateeventplanner.model.Task;
 import com.cep.corporateeventplanner.repo.TaskRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -12,6 +13,7 @@ import java.util.List;
 @Service(value = "taskService")
 public class TaskServiceImpl implements TaskService
 {
+    @Autowired
     TaskRepository taskrepo;
 
     @Override
@@ -38,7 +40,16 @@ public class TaskServiceImpl implements TaskService
     @Override
     public void createNewTask(Task task)
     {
+        Task newTask = new Task();
+        newTask.setPurchase(task.getPurchase());
+        newTask.setAssigned(task.getAssigned());
+        newTask.setCategory(task.getCategory());
+        newTask.setDescription(task.getDescription());
+        newTask.setDuedate(task.getDuedate());
+        newTask.setName(task.getName());
+        newTask.setEvent(task.getEvent());
 
+        taskrepo.save(newTask);
     }
 
     @Override
@@ -49,7 +60,7 @@ public class TaskServiceImpl implements TaskService
         {
             currentTask.setName(task.getName());
         }
-        if (task.getAssigned() !=null)
+        if (task.getAssigned() != null)
         {
             currentTask.setAssigned(task.getAssigned());
         }
@@ -73,16 +84,27 @@ public class TaskServiceImpl implements TaskService
     @Override
     public void setTaskCompleted(long id)
     {
+        Task currentTask = taskrepo.findById(id).orElseThrow(EntityNotFoundException::new);
+        {
+            if (currentTask.isCompleted())
+            {
+                currentTask.setCompleted(true);
+            } else
+            {
+                currentTask.setCompleted(false);
+            }
+            taskrepo.save(currentTask);
+        }
+
     }
 
     @Override
     public void deleteTask(long id)
     {
-        if( taskrepo.findById(id).isPresent())
+        if (taskrepo.findById(id).isPresent())
         {
             taskrepo.deleteById(id);
-        }
-        else
+        } else
         {
             throw new EntityNotFoundException(Long.toString(id));
         }
