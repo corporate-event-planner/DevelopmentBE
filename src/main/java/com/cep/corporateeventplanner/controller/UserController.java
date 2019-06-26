@@ -48,7 +48,8 @@ public class UserController {
 
 
     @PostMapping(value = "/signup")
-    public ResponseEntity<?> handleSignup(@RequestBody User user){
+    public ResponseEntity<?> handleSignup(@RequestBody User user)
+    {
         Role role = roleService.findByName("USER");
         User newUser = new User(user.getUsername(), user.getPassword(), new ArrayList<>(Arrays.asList(new UserRoles(new User(), role))));
         newUser.setEmail(user.getEmail());
@@ -60,7 +61,8 @@ public class UserController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<?> handleSignin(@RequestBody User user){
+    public ResponseEntity<?> handleSignin(@RequestBody User user)
+    {
         String username = user.getUsername();
         String password = user.getPassword();
 
@@ -69,16 +71,19 @@ public class UserController {
 
         authenticationManager.authenticate(token);
 
-        if (token.isAuthenticated()){
+        if (token.isAuthenticated())
+        {
             SecurityContextHolder.getContext().setAuthentication(token);
             return new ResponseEntity<>(token , HttpStatus.OK);
-        }else{
+        }else
+        {
             throw new AuthenticationServiceException("Failed to authenticate user. Check Login credentials");
         }
     }
 
     @GetMapping(value = "/oauth/revoke-token")
-    public void logout(HttpServletRequest request) {
+    public void logout(HttpServletRequest request)
+    {
         String authHeader = request.getHeader("Authorization");
         if (authHeader != null)
         {
@@ -109,7 +114,7 @@ public class UserController {
     @DeleteMapping("/user/{id}")
     public ResponseEntity<?> deleteUserById(HttpServletRequest request,
                                             @PathVariable
-                                            long id)
+                                                    long id)
     {
         userService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

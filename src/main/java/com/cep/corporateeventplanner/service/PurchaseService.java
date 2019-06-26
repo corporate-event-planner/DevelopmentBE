@@ -5,7 +5,8 @@ import com.cep.corporateeventplanner.model.Purchase;
 
 import java.util.List;
 
-public interface PurchaseService {
+public interface PurchaseService
+{
     List<Purchase> findAll();
 
     Purchase findById(long id);
