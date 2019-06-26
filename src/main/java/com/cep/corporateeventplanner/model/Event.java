@@ -29,7 +29,7 @@ public class Event {
     @JsonIgnoreProperties(value = "event")
     List<Task> tasklist = new ArrayList<>();
 
-    @OneToMany(mappedBy = "eventU")
+    @OneToMany(mappedBy = "eventU", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("eventU")
     List<UserEvents> userEvents = new ArrayList<>();
 

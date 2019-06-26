@@ -1,6 +1,7 @@
 package com.cep.corporateeventplanner.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,13 +12,13 @@ import java.util.Objects;
 public class UserEvents implements Serializable {
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userid")
     @JsonIgnoreProperties("userEvents")
     private User userE;
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "eventid")
     @JsonIgnoreProperties("userEvents")
     private Event eventU;

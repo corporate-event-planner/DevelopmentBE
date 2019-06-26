@@ -37,7 +37,7 @@ public class User
     @Column(nullable = false)
     private String role;
 
-    @OneToMany(mappedBy = "userE")
+    @OneToMany(mappedBy = "userE", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("userE")
     List<UserEvents> userEvents = new ArrayList<>();
 

@@ -10,6 +10,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,8 +22,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -48,8 +51,7 @@ public class UserController {
 
 
     @PostMapping(value = "/signup")
-    public ResponseEntity<?> handleSignup(@RequestBody User user)
-    {
+    public ResponseEntity<?> handleSignup(@RequestBody User user){
         Role role = roleService.findByName("USER");
         User newUser = new User(user.getUsername(), user.getPassword(), new ArrayList<>(Arrays.asList(new UserRoles(new User(), role))));
         newUser.setEmail(user.getEmail());
@@ -61,29 +63,33 @@ public class UserController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<?> handleSignin(@RequestBody User user)
-    {
+    public ResponseEntity<?> handleSignin(@RequestBody User user, HttpServletRequest request){
         String username = user.getUsername();
+        user.setPassword(user.getPassword());
         String password = user.getPassword();
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+        token.setDetails(new WebAuthenticationDetails(request));
+
+        Authentication authentication = authenticationManager.authenticate(token);
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+/*        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
 
-        authenticationManager.authenticate(token);
+        authenticationManager.authenticate(token);*/
 
-        if (token.isAuthenticated())
-        {
+        if (token.isAuthenticated()){
             SecurityContextHolder.getContext().setAuthentication(token);
             return new ResponseEntity<>(token , HttpStatus.OK);
-        }else
-        {
+        }else{
             throw new AuthenticationServiceException("Failed to authenticate user. Check Login credentials");
         }
     }
 
     @GetMapping(value = "/oauth/revoke-token")
-    public void logout(HttpServletRequest request)
-    {
+    public void logout(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
         if (authHeader != null)
         {
@@ -114,7 +120,7 @@ public class UserController {
     @DeleteMapping("/user/{id}")
     public ResponseEntity<?> deleteUserById(HttpServletRequest request,
                                             @PathVariable
-                                                    long id)
+                                            long id)
     {
         userService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

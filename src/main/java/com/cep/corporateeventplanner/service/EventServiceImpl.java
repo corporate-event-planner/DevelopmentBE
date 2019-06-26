@@ -6,6 +6,7 @@ import com.cep.corporateeventplanner.model.User;
 import com.cep.corporateeventplanner.model.UserEvents;
 import com.cep.corporateeventplanner.repo.EventRepository;
 import com.cep.corporateeventplanner.repo.TaskRepository;
+import com.cep.corporateeventplanner.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,9 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     TaskRepository taskrepo;
+
+    @Autowired
+    UserRepository userrepo;
 
     @Override
     public List<Event> findAll() {
@@ -45,6 +49,11 @@ public class EventServiceImpl implements EventService {
         if (event.getTasklist() != null && event.getTasklist().size() > 0) {
             for (Task task : event.getTasklist()) {
                 task.setEvent(event);
+            }
+        }
+        if (event.getUserEvents() != null && event.getUserEvents().size() > 0) {
+            for (UserEvents userEvents : event.getUserEvents()) {
+                userEvents.getUserE().getUserEvents().add(userEvents);
             }
         }
         return event;
@@ -90,5 +99,11 @@ public class EventServiceImpl implements EventService {
         }else{
             throw new EntityNotFoundException();
         }
+    }
+
+    @Override
+    public void addUserToEvent(User user, Event event) {
+        event.getUserEvents().add(new UserEvents(user, event));
+        repo.save(event);
     }
 }

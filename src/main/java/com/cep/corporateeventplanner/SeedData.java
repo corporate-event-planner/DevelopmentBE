@@ -1,6 +1,7 @@
 package com.cep.corporateeventplanner;
 
 import com.cep.corporateeventplanner.model.*;
+import com.cep.corporateeventplanner.repo.*;
 import com.cep.corporateeventplanner.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,7 +17,22 @@ import java.util.List;
 @Component
 public class SeedData implements CommandLineRunner {
 
+
     @Autowired
+    EventRepository eventRepository;
+
+    @Autowired
+    TaskRepository taskRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    RoleRepository roleRepository;
+
+    @Autowired
+    PurchaseRepository purchaseRepository;
+/*    @Autowired
     EventService eventService;
 
     @Autowired
@@ -29,13 +45,13 @@ public class SeedData implements CommandLineRunner {
     RoleService roleService;
 
     @Autowired
-    PurchaseService purchaseService;
+    PurchaseService purchaseService;*/
 
     @Override
     public void run(String... args) throws Exception {
 
         Role r1 = new Role("USER");
-        roleService.save(r1);
+        roleRepository.save(r1);
 
         List<UserRoles> users = new ArrayList<>();
         users.add(new UserRoles(new User(), r1));
@@ -51,7 +67,6 @@ public class SeedData implements CommandLineRunner {
         user2.setRole("Frontend Ninja");
         user2.setCompanyname("DevelopersAnonymous");
         user2.setEmail("SamIAm@Email.com");
-        userService.save(user2);
 
         users = new ArrayList<>();
         users.add(new UserRoles(new User(), r1));
@@ -59,7 +74,6 @@ public class SeedData implements CommandLineRunner {
         user3.setRole("Frontend Ninja");
         user3.setCompanyname("DevelopersAnonymous");
         user3.setEmail("AlejandroTheAnimal@Email.com");
-        userService.save(user3);
 
         users = new ArrayList<>();
         users.add(new UserRoles(new User(), r1));
@@ -67,7 +81,11 @@ public class SeedData implements CommandLineRunner {
         user4.setRole("Backend B.A.");
         user4.setCompanyname("DevelopersAnonymous");
         user4.setEmail("HugoTheGiant@Email.com");
-        userService.save(user4);
+
+        userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
+        userRepository.save(user4);
 
 
         Event event1 = new Event();
@@ -76,19 +94,31 @@ public class SeedData implements CommandLineRunner {
         event1.setBudget("$10,000");
         event1.setName("Teambuilding Trip");
         event1.setDescription("Take the IT department on a teambuilding getaway in Hawaii");
-        Purchase purchase1 = new Purchase("Reserve Hotel Rooms", "Mariott Hotel", "Judy", "judyisawesome@email.com", "$3,000");
-        Task task1 = new Task("Reservations","Make Hotel Reservations", "John", false, "8-1-2019", "Service", event1,
-                Collections.singletonList(purchase1));
-        purchase1.setTask(task1);
-        taskService.createNewTask(task1);
-        event1.getTasklist().add(task1);
-        Task task2 = new Task("RSVP", "Have all employees either RSVP or opt out", "Michelle", false, "7-15-2019", "Task", event1);
-        taskService.createNewTask(task2);
-        event1.getTasklist().add(task2);
+//        event1.setUserEvents(new ArrayList<>(Arrays.asList(new UserEvents(user1, event1))));
         event1.getUserEvents().add(new UserEvents(user1, event1));
-        user1.getUserEvents().add(new UserEvents(user1, event1));
-        userService.save(user1);
-        eventService.create(event1);
+
+
+        Task task1 = new Task("Reservations","Make Hotel Reservations", "John", false, "8-1-2019","Service", event1);
+//        event1.getTasklist().add(task1);
+        Task task2 = new Task("RSVP", "Have all employees either RSVP or opt out", "Michelle", false, "7-15-2019", "Task", event1);
+        //event1.getTasklist().add(task2);
+        //event1.getUserEvents().add(new UserEvents(user1, event1));
+        //eventService.create(event1);
+        Purchase purchase1 = new Purchase("Reserve Hotel Rooms", "Mariott Hotel", "Judy", "judyisawesome@email.com", "$3,000", 0, task1);
+
+
+
+
+        eventRepository.save(event1);
+        taskRepository.save(task1);
+        taskRepository.save(task2);
+        purchaseRepository.save(purchase1);
+        /*eventService.create(event1);
+        taskService.createNewTask(task1);
+        taskService.createNewTask(task2);
+        purchaseService.create(purchase1);
+*/
+
 
     }
 }
