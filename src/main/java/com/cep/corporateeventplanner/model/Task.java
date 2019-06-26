@@ -1,28 +1,37 @@
 package com.cep.corporateeventplanner.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.util.List;
 
+@ApiModel(value = "Task", description = "The task entity")
 @Entity
 public class Task {
-
+    @ApiModelProperty(name = "Task ID", value = "The Primary Key ID for the Task", required = true , example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long taskid;
 
+    @ApiModelProperty(name = "Task Name", value = "The name of the task", required = true , example = "Make Reservations")
     @Column(nullable = false)
     private String name;
 
+    @ApiModelProperty(name = "Task Description", value = "The description of the task", example = "Reserve 50 rooms at the Mariott hotel on Main")
     private String description;
 
+    @ApiModelProperty(name = "Assigned User", value = "The name of the person assigned to carry out the task", example = "John Smith")
     private String assigned;
 
+    @ApiModelProperty(name = "Completed", value = "The boolean representation of whether the task has been completed or not", example = "false")
     private boolean completed;
 
+    @ApiModelProperty(name = "Duedate", value = "The date at which the task must be completed", example = "8-19-2019")
     private String duedate;
 
+    @ApiModelProperty(name = "Category", value = "The category that the task falls under", example = "Service")
     private String category;
 
     @ManyToOne
@@ -30,6 +39,7 @@ public class Task {
     @JsonIgnoreProperties(value = "tasklist")
     private Event event;
 
+    @ApiModelProperty(name = "Purchase", value = "The purchase details for an event that involves buying something or paying an outside company")
     @OneToMany(mappedBy = "task", orphanRemoval = true)
     @JsonIgnoreProperties(value = "task")
     private List<Purchase> purchase;

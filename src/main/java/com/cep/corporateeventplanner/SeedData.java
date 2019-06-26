@@ -2,15 +2,12 @@ package com.cep.corporateeventplanner;
 
 import com.cep.corporateeventplanner.model.*;
 import com.cep.corporateeventplanner.repo.*;
-import com.cep.corporateeventplanner.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Transactional
@@ -94,15 +91,15 @@ public class SeedData implements CommandLineRunner {
         event1.setBudget("$10,000");
         event1.setName("Teambuilding Trip");
         event1.setDescription("Take the IT department on a teambuilding getaway in Hawaii");
-//        event1.setUserEvents(new ArrayList<>(Arrays.asList(new UserEvents(user1, event1))));
-        event1.getUserEvents().add(new UserEvents(user1, event1));
+//        event1.setUserList(new ArrayList<>(Arrays.asList(new UserEvents(user1, event1))));
+        event1.getUserList().add(new UserEvents(user1, event1));
 
 
         Task task1 = new Task("Reservations","Make Hotel Reservations", "John", false, "8-1-2019","Service", event1);
 //        event1.getTasklist().add(task1);
         Task task2 = new Task("RSVP", "Have all employees either RSVP or opt out", "Michelle", false, "7-15-2019", "Task", event1);
         //event1.getTasklist().add(task2);
-        //event1.getUserEvents().add(new UserEvents(user1, event1));
+        //event1.getUserList().add(new UserEvents(user1, event1));
         //eventService.create(event1);
         Purchase purchase1 = new Purchase("Reserve Hotel Rooms", "Mariott Hotel", "Judy", "judyisawesome@email.com", "$3,000", 0, task1);
 

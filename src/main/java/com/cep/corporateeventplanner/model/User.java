@@ -2,6 +2,8 @@ package com.cep.corporateeventplanner.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -11,40 +13,49 @@ import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApiModel(value = "User", description = "The user entity")
 @Entity
 @Table
 public class User
 {
+    @ApiModelProperty(name = "User ID", value = "The Primary Key ID for the user", required = true, example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userid;
 
+    @ApiModelProperty(name = "Username", value = "The username for the user", required = true, example = "JohnTheAirGuitarSmith")
     @Column(nullable = false,
             unique = true)
     private String username;
 
+    @ApiModelProperty(name = "Password", value = "The password of the user", required = true, example = "NotPassword1234")
     @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @ApiModelProperty(name = "Email", value = "The email of the user", example = "JohnnyGuitar@Email.com")
     @Column(nullable = false,
             unique = true)
     private String email;
 
+    @ApiModelProperty(name = "Company Name", value = "The name of the company at which the user is employed", example = "Air Guitars 'R' Us")
     @Column(nullable = false)
     private String companyname;
 
+    @ApiModelProperty(name = "Company Role", value = "The role the user plays in the company", example = "Air Guitar Instructor")
     @Column(nullable = false)
     private String role;
 
-    @OneToMany(mappedBy = "userE", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("userE")
+    @ApiModelProperty(name = "User Events", value = "The events that the user is associated with")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("user")
     List<UserEvents> userEvents = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties("user")
     private List<UserRoles> userRoles = new ArrayList<>();
 
+    @ApiModelProperty(name = "Image", value = "The Profile Image for the User")
     @Lob
     private Blob image;
 

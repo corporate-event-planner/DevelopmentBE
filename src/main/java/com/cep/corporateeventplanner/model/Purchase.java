@@ -1,22 +1,31 @@
 package com.cep.corporateeventplanner.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Generated;
 
 import javax.persistence.*;
 
+@ApiModel(value = "Purchase", description = "The purchase entity")
 @Entity
 public class Purchase {
+    @ApiModelProperty(name = "Purchase ID", value = "The Primary Key ID for the purchase", required = true, example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long purchaseid;
 
-
+    @ApiModelProperty(name = "Purchase description", value = "The description of the purchase", example = "Hire a catering company")
     private String description;
+    @ApiModelProperty(name = "Vendor Name", value = "The name of the potential vendor for the purchase", example = "A&G Catering")
     private String vendorname;
+    @ApiModelProperty(name = "Point of Contact", value = "The contact for the vendor", example = "Jamie 602-341-1827")
     private String pointofcontact;
+    @ApiModelProperty(name = "Contact Email", value = "The email of the vendor contact", example = "JamieIsThaBest@Email.com")
     private String email;
+    @ApiModelProperty(name = "Price", value = "The estimated and/or maximum price of the purchase", example = "$1,500")
     private String price;
+    @ApiModelProperty(name = "Quantity", value = "The quantity of the purchase", example = "100")
     private long qty;
 
     @ManyToOne

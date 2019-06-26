@@ -51,9 +51,9 @@ public class EventServiceImpl implements EventService {
                 task.setEvent(event);
             }
         }
-        if (event.getUserEvents() != null && event.getUserEvents().size() > 0) {
-            for (UserEvents userEvents : event.getUserEvents()) {
-                userEvents.getUserE().getUserEvents().add(userEvents);
+        if (event.getUserList() != null && event.getUserList().size() > 0) {
+            for (UserEvents userEvents : event.getUserList()) {
+                userEvents.getUser().getUserEvents().add(userEvents);
             }
         }
         return event;
@@ -83,9 +83,9 @@ public class EventServiceImpl implements EventService {
                 task.setEvent(event);
             }
         }
-        if(event.getUserEvents() != null && event.getUserEvents().size() > 0){
-            for (UserEvents user: event.getUserEvents()){
-                repo.insertUserEvents(user.getUserE().getUserid(), currentEvent.getEventid());
+        if(event.getUserList() != null && event.getUserList().size() > 0){
+            for (UserEvents user: event.getUserList()){
+                repo.insertUserEvents(user.getUser().getUserid(), currentEvent.getEventid());
             }
         }
         repo.save(currentEvent);
@@ -103,7 +103,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void addUserToEvent(User user, Event event) {
-        event.getUserEvents().add(new UserEvents(user, event));
+        event.getUserList().add(new UserEvents(user, event));
         repo.save(event);
     }
 }

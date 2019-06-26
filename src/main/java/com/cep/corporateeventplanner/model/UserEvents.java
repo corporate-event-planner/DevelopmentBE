@@ -1,7 +1,6 @@
 package com.cep.corporateeventplanner.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,36 +14,36 @@ public class UserEvents implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userid")
     @JsonIgnoreProperties("userEvents")
-    private User userE;
+    private User user;
 
     @Id
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "eventid")
-    @JsonIgnoreProperties("userEvents")
-    private Event eventU;
+    @JsonIgnoreProperties("userList")
+    private Event event;
 
     public UserEvents() {
     }
 
-    public UserEvents(User userE, Event eventU) {
-        this.userE = userE;
-        this.eventU = eventU;
+    public UserEvents(User user, Event event) {
+        this.user = user;
+        this.event = event;
     }
 
-    public User getUserE() {
-        return userE;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserE(User userE) {
-        this.userE = userE;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Event getEventU() {
-        return eventU;
+    public Event getEvent() {
+        return event;
     }
 
-    public void setEventU(Event eventU) {
-        this.eventU = eventU;
+    public void setEvent(Event event) {
+        this.event = event;
     }
 
     @Override
@@ -52,12 +51,12 @@ public class UserEvents implements Serializable {
         if (this == o) return true;
         if (!(o instanceof UserEvents)) return false;
         UserEvents that = (UserEvents) o;
-        return getUserE().equals(that.getUserE()) &&
-                getEventU().equals(that.getEventU());
+        return getUser().equals(that.getUser()) &&
+                getEvent().equals(that.getEvent());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUserE(), getEventU());
+        return Objects.hash(getUser(), getEvent());
     }
 }

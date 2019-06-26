@@ -68,7 +68,7 @@ public class EventController
     public ResponseEntity<?> postNewEvent(@RequestBody Event event, Authentication authentication){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userService.findByUsername(userDetails.getUsername());
-        event.getUserEvents().add(new UserEvents(user, event));
+        event.getUserList().add(new UserEvents(user, event));
         eventService.create(event);
         for (Task task: event.getTasklist()){
             task.setEvent(event);
@@ -89,16 +89,14 @@ public class EventController
         Event currentEvent = eventService.findById(eventid);
         if (checkUserForEvent(user, currentEvent)) {
             event.setEventid(eventid);
-            if (event.getUserEvents() != null && event.getUserEvents().size() > 0){
-                for (UserEvents events: event.getUserEvents()){
-                    if (events.getUserE().getUsername() != null){
-                        System.out.println(events.getUserE().getUsername());
-                        events.setUserE(userService.findByUsername(events.getUserE().getUsername()));
-                        System.out.println(events.getUserE().getUserid());
-                    }else if (events.getUserE().getUserid() != 0){
-                        events.setUserE(userService.findUserById(events.getUserE().getUserid()));
+            if (event.getUserList() != null && event.getUserList().size() > 0){
+                for (UserEvents events: event.getUserList()){
+                    if (events.getUser().getUsername() != null){
+                        events.setUser(userService.findByUsername(events.getUser().getUsername()));
+                    }else if (events.getUser().getUserid() != 0){
+                        events.setUser(userService.findUserById(events.getUser().getUserid()));
                     }
-                    events.setEventU(currentEvent);
+                    events.setEvent(currentEvent);
                 }
             }
             eventService.updateEvent(event, eventid);
@@ -133,8 +131,8 @@ public class EventController
 
     private boolean checkUserForEvent(User user, Event event){
         long userid = user.getUserid();
-        for (UserEvents eventUser: event.getUserEvents()){
-            if (eventUser.getUserE().getUserid() == userid){
+        for (UserEvents eventUser: event.getUserList()){
+            if (eventUser.getUser().getUserid() == userid){
                 return true;
             }
         }

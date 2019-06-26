@@ -1,6 +1,5 @@
 package com.cep.corporateeventplanner.service;
 
-import com.cep.corporateeventplanner.model.Event;
 import com.cep.corporateeventplanner.model.User;
 import com.cep.corporateeventplanner.model.UserEvents;
 import com.cep.corporateeventplanner.model.UserRoles;
@@ -73,7 +72,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         ArrayList<UserEvents> newEvents = new ArrayList<>();
         for (UserEvents event: user.getUserEvents()){
-            newEvents.add(new UserEvents(newUser, event.getEventU()));
+            newEvents.add(new UserEvents(newUser, event.getEvent()));
         }
 
         return repo.save(newUser);
@@ -90,7 +89,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         if (user.getUserEvents() != null && user.getUserEvents().size() > 0){
             for (UserEvents event: user.getUserEvents()){
-                currentUser.getUserEvents().add(new UserEvents(currentUser, event.getEventU()));
+                currentUser.getUserEvents().add(new UserEvents(currentUser, event.getEvent()));
             }
         }
         if (user.getImage() != null){

@@ -1,37 +1,48 @@
 package com.cep.corporateeventplanner.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApiModel(value = "Event", description = "The Event entity")
 @Entity
 public class Event {
 
+    @ApiModelProperty(name = "Event ID", value = "The Primary Key ID for the event", required = true, example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long eventid;
 
+    @ApiModelProperty(name = "Event Name", value = "The name of the Event", required = true, example = "Teambuilding Retreat")
     @Column(nullable = false)
     private String name;
 
+    @ApiModelProperty(name = "Event Description", value = "The Description of the event", required = false, example = "IT team going on a team building retreat in Hawaii for 2 weeks")
     private String description;
 
+    @ApiModelProperty(name = "Event Date", value = "The date of the event", required = true, example = "8-22-2019")
     @Column(nullable = false)
     private String date;
 
+    @ApiModelProperty(name = "Event Budget", value = "The budget for the event", required = false, example = "$10,000")
     private String budget;
 
+    @ApiModelProperty(name = "Company Name", value = "The name of the company hosting the event", required = false, example = "DevelopersAnonymous")
     private String companyname;
 
+    @ApiModelProperty(name = "Task List", value = "The tasks associated with preparing for the event")
     @OneToMany(mappedBy = "event", orphanRemoval = true)
     @JsonIgnoreProperties(value = "event")
     List<Task> tasklist = new ArrayList<>();
 
-    @OneToMany(mappedBy = "eventU", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("eventU")
-    List<UserEvents> userEvents = new ArrayList<>();
+    @ApiModelProperty(name = "Users List", value = "The users attending the event and/or associated with setting the event up")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("event")
+    List<UserEvents> userList = new ArrayList<>();
 
     public Event() {
     }
@@ -53,22 +64,22 @@ public class Event {
         this.companyname = companyname;
     }
 
-    public Event(String name, String description, String date, String budget, String companyname, List<Task> tasklist, List<UserEvents> userEvents) {
+    public Event(String name, String description, String date, String budget, String companyname, List<Task> tasklist, List<UserEvents> userList) {
         this.name = name;
         this.description = description;
         this.date = date;
         this.budget = budget;
         this.companyname = companyname;
         this.tasklist = tasklist;
-        this.userEvents = userEvents;
+        this.userList = userList;
     }
 
-    public List<UserEvents> getUserEvents() {
-        return userEvents;
+    public List<UserEvents> getUserList() {
+        return userList;
     }
 
-    public void setUserEvents(List<UserEvents> userEvents) {
-        this.userEvents = userEvents;
+    public void setUserList(List<UserEvents> userList) {
+        this.userList = userList;
     }
 
     public long getEventid() {
