@@ -5,6 +5,7 @@ import com.cep.corporateeventplanner.model.User;
 import com.cep.corporateeventplanner.model.UserRoles;
 import com.cep.corporateeventplanner.service.RoleService;
 import com.cep.corporateeventplanner.service.UserService;
+import io.swagger.annotations.Authorization;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -84,6 +86,13 @@ public class UserController {
             OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
             tokenStore.removeAccessToken(accessToken);
         }
+    }
+
+    @GetMapping(value = "/users/me")
+    public ResponseEntity<?> getCurrentUser(Authentication authentication){
+        UserDetails principal = (UserDetails) authentication.getPrincipal();
+        String username = principal.getUsername();
+        return new ResponseEntity<>(userService.findByUsername(username), HttpStatus.OK);
     }
 
     @PutMapping(value = "/user/{id}")
