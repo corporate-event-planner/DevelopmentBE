@@ -85,7 +85,7 @@ public class EventServiceImpl implements EventService {
         }
         if(event.getUserEvents() != null && event.getUserEvents().size() > 0){
             for (UserEvents user: event.getUserEvents()){
-                currentEvent.getUserEvents().add(new UserEvents(user.getUserE(), currentEvent));
+                repo.insertUserEvents(user.getUserE().getUserid(), currentEvent.getEventid());
             }
         }
         repo.save(currentEvent);

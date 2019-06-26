@@ -63,8 +63,21 @@ public class EventController
     public ResponseEntity<?> updateEvent(@PathVariable long eventid, @RequestBody Event event, Authentication authentication){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userService.findByUsername(userDetails.getUsername());
-        event.setEventid(eventid);
-        if (checkUserForEvent(user, event)) {
+        Event currentEvent = eventService.findById(eventid);
+        if (checkUserForEvent(user, currentEvent)) {
+            event.setEventid(eventid);
+            if (event.getUserEvents() != null && event.getUserEvents().size() > 0){
+                for (UserEvents events: event.getUserEvents()){
+                    if (events.getUserE().getUsername() != null){
+                        System.out.println(events.getUserE().getUsername());
+                        events.setUserE(userService.findByUsername(events.getUserE().getUsername()));
+                        System.out.println(events.getUserE().getUserid());
+                    }else if (events.getUserE().getUserid() != 0){
+                        events.setUserE(userService.findUserById(events.getUserE().getUserid()));
+                    }
+                    events.setEventU(currentEvent);
+                }
+            }
             eventService.updateEvent(event, eventid);
             for (Task task : event.getTasklist()) {
                 task.setEvent(event);
