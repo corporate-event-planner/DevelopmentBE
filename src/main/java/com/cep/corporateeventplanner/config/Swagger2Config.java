@@ -23,7 +23,7 @@ public class Swagger2Config
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors
-                        .basePackage("com.lambdaschool.school"))
+                        .basePackage("com.cep.corporateeventplanner"))
                 .paths(PathSelectors.regex("/.*"))
                 .build()
                 //                .useDefaultResponseMessages(false) // Allows only my exception responses
@@ -33,9 +33,9 @@ public class Swagger2Config
 
     private ApiInfo apiEndPointsInfo()
     {
-        return new ApiInfoBuilder().title("Student Example")
-                .description("Student Example Description")
-                .contact(new Contact("Hugo Martinez", "http://www.lambdaschool.com", "Hugo@lambdaschool.com"))
+        return new ApiInfoBuilder().title("Event Planner")
+                .description("Corporate Event Description")
+                .contact(new Contact("Event planner", "http://www.lambdaschool.com", "Hugo@lambdaschool.com"))
                 .license("MIT").licenseUrl("https://github.com/LambdaSchool/java-crudysnacks/blob/master/LICENSE")
                 .version("1.0.0").build();
     }
