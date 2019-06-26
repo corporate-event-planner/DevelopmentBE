@@ -25,11 +25,11 @@ public class Event {
 
     private String companyname;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", orphanRemoval = true)
     @JsonIgnoreProperties(value = "event")
     List<Task> tasklist = new ArrayList<>();
 
-    @OneToMany(mappedBy = "eventU", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "eventU", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("eventU")
     List<UserEvents> userEvents = new ArrayList<>();
 

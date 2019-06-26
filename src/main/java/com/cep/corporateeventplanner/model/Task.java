@@ -30,7 +30,7 @@ public class Task {
     @JsonIgnoreProperties(value = "tasklist")
     private Event event;
 
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "task", orphanRemoval = true)
     @JsonIgnoreProperties(value = "task")
     private List<Purchase> purchase;
 

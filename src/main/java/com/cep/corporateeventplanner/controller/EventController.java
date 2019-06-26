@@ -38,16 +38,19 @@ public class EventController
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Event event = eventService.findById(eventid);
         User user = userService.findByUsername(userDetails.getUsername());
-        return new ResponseEntity<>(event, HttpStatus.OK);
-/*        if (checkUserForEvent(user, event)){
+//        return new ResponseEntity<>(event, HttpStatus.OK);
+        if (checkUserForEvent(user, event)){
             return new ResponseEntity<>(event, HttpStatus.OK);
         }else{
             throw new AuthorizationServiceException("User not authorized");
-        }*/
+        }
     }
 
     @PostMapping(value = "/events/new")
-    public ResponseEntity<?> postNewEvent(@RequestBody Event event){
+    public ResponseEntity<?> postNewEvent(@RequestBody Event event, Authentication authentication){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userService.findByUsername(userDetails.getUsername());
+        event.getUserEvents().add(new UserEvents(user, event));
         eventService.create(event);
         for (Task task: event.getTasklist()){
             task.setEvent(event);
@@ -57,24 +60,37 @@ public class EventController
     }
 
     @PutMapping(value = "/events/edit/{eventid}", produces = {"application/json"})
-    public ResponseEntity<?> updateEvent(@PathVariable long eventid, @RequestBody Event event){
+    public ResponseEntity<?> updateEvent(@PathVariable long eventid, @RequestBody Event event, Authentication authentication){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userService.findByUsername(userDetails.getUsername());
         event.setEventid(eventid);
-        eventService.updateEvent(event, eventid);
-        for (Task task: event.getTasklist()){
-            task.setEvent(event);
-            taskService.createNewTask(task);
+        if (checkUserForEvent(user, event)) {
+            eventService.updateEvent(event, eventid);
+            for (Task task : event.getTasklist()) {
+                task.setEvent(event);
+                taskService.createNewTask(task);
+            }
+            return new ResponseEntity<>(event, HttpStatus.OK);
+        }else{
+            throw new AuthorizationServiceException("User not authorized");
         }
-        return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/events/delete/{eventid}")
-    public ResponseEntity<?> deleteEvent(@PathVariable long eventid){
-        eventService.deleteEvent(eventid);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> deleteEvent(@PathVariable long eventid, Authentication authentication){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userService.findByUsername(userDetails.getUsername());
+        Event event = eventService.findById(eventid);
+        if (checkUserForEvent(user, event)) {
+            eventService.deleteEvent(eventid);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            throw new AuthorizationServiceException("User not authorized");
+        }
     }
 
 
-/*    private boolean checkUserForEvent(User user, Event event){
+    private boolean checkUserForEvent(User user, Event event){
         long userid = user.getUserid();
         for (UserEvents eventUser: event.getUserEvents()){
             if (eventUser.getUserE().getUserid() == userid){
@@ -82,5 +98,5 @@ public class EventController
             }
         }
         return false;
-    }*/
+    }
 }
