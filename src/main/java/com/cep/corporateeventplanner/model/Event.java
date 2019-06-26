@@ -94,47 +94,58 @@ public class Event {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public String getDescription() {
+    public String getDescription()
+    {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(String description)
+    {
         this.description = description;
     }
 
-    public String getDate() {
+    public String getDate()
+    {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(String date)
+    {
         this.date = date;
     }
 
-    public String getBudget() {
+    public String getBudget()
+    {
         return budget;
     }
 
-    public void setBudget(String budget) {
+    public void setBudget(String budget)
+    {
         this.budget = budget;
     }
 
-    public String getCompanyname() {
+    public String getCompanyname()
+    {
         return companyname;
     }
 
-    public void setCompanyname(String companyname) {
+    public void setCompanyname(String companyname)
+    {
         this.companyname = companyname;
     }
 
-    public List<Task> getTasklist() {
+    public List<Task> getTasklist()
+    {
         return tasklist;
     }
 
-    public void setTasklist(List<Task> tasklist) {
+    public void setTasklist(List<Task> tasklist)
+    {
         this.tasklist = tasklist;
     }
 }
