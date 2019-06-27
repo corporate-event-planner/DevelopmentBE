@@ -1,6 +1,7 @@
 package com.cep.corporateeventplanner.service;
 
 import com.cep.corporateeventplanner.CorporateeventplannerApplication;
+import com.cep.corporateeventplanner.model.Event;
 import com.cep.corporateeventplanner.repo.EventRepository;
 import org.junit.After;
 import org.junit.Before;
@@ -54,6 +55,12 @@ public class EventServiceImplTest
     @Test
     public void create()
     {
+        Event newEvent = new Event();
+        newEvent.setName("Christmas Party");
+        newEvent.setBudget("20000");
+        eventService.create(newEvent);
+
+        assertEquals(2, eventService.findAll().size());
     }
 
     @Test
@@ -64,10 +71,13 @@ public class EventServiceImplTest
     @Test
     public void deleteEvent()
     {
+        eventService.deleteEvent(100);
+        assertEquals(1, eventService.findAll().size());
     }
 
     @Test
     public void addUserToEvent()
     {
+
     }
 }
