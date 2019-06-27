@@ -2,6 +2,8 @@ package com.cep.corporateeventplanner.service;
 
 import com.cep.corporateeventplanner.CorporateeventplannerApplication;
 import com.cep.corporateeventplanner.model.Event;
+import com.cep.corporateeventplanner.model.User;
+import com.cep.corporateeventplanner.model.UserEvents;
 import com.cep.corporateeventplanner.repo.EventRepository;
 import org.junit.After;
 import org.junit.Before;
@@ -21,6 +23,9 @@ public class EventServiceImplTest
 {
     @Autowired
     EventService eventService;
+
+    @Autowired
+    EventRepository eventRepository;
 
 
     @Before
@@ -49,7 +54,7 @@ public class EventServiceImplTest
     @Test
     public void findByName()
     {
-                assertEquals("Teambuilding", eventService.findByName("Teambuilding"));
+        assertEquals("Teambuilding", eventService.findByName("Teambuilding"));
     }
 
     @Test
@@ -65,19 +70,22 @@ public class EventServiceImplTest
 
     @Test
     public void updateEvent()
-    {
+    { ;
     }
 
     @Test
     public void deleteEvent()
     {
-        eventService.deleteEvent(100);
-        assertEquals(1, eventService.findAll().size());
+        eventService.deleteEvent(8);
+        assertEquals(0, eventService.findAll().size());
     }
 
     @Test
     public void addUserToEvent()
     {
-
+        User newUser = new User();
+        newUser.setUsername("Paul");
+        newUser.setCompanyname("Company A");
+        assertEquals(5, eventService.findAll().size());
     }
 }

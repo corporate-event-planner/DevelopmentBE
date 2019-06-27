@@ -38,14 +38,14 @@ public class UserServiceImplTest
     @Test
     public void findUserById()
     {
-        assertEquals("JakeTheDude", userService.findUserById(8).getUsername());
+        assertEquals("JakeTheDude", userService.findUserById(2).getUsername());
     }
 
     @Test
     public void delete()
     {
-        userService.delete(100);
-        assertEquals(4, userService.findAll().size());
+        userService.delete(2);
+        assertEquals(3, userService.findAll().size());
     }
 
     @Test
