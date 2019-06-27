@@ -1,24 +1,27 @@
 package com.cep.corporateeventplanner.service;
 
+import com.cep.corporateeventplanner.CorporateeventplannerApplication;
+import com.cep.corporateeventplanner.repo.EventRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
+
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = EventServiceImpl.class)
-
-
-
+@SpringBootTest(classes = CorporateeventplannerApplication.class)
 public class EventServiceImplTest
 {
     @Autowired
     EventService eventService;
+
+
     @Before
     public void setUp() throws Exception
     {
@@ -39,7 +42,7 @@ public class EventServiceImplTest
     @Test
     public void findById()
     {
-//        assertEquals("Company A", eventService.findById(8).getCompanyname());
+        assertEquals("Company A", eventService.findById(8).getCompanyname());
     }
 
     @Test
