@@ -51,6 +51,6 @@ public class UserServiceImplTest
     @Test
     public void findByUsername()
     {
-        assertEquals("JakeTheDude", userService.findByUsername("JakeTheDude"));
+        assertEquals("JakeTheDude", userService.findByUsername("JakeTheDude").getUsername());
     }
 }

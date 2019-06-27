@@ -29,16 +29,7 @@ public class SeedData implements CommandLineRunner {
 
     @Autowired
     PurchaseRepository purchaseRepository;
-/*    @Autowired
-    EventService eventService;
-    @Autowired
-    TaskService taskService;
-    @Autowired
-    UserService userService;
-    @Autowired
-    RoleService roleService;
-    @Autowired
-    PurchaseService purchaseService;*/
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -87,16 +78,12 @@ public class SeedData implements CommandLineRunner {
         event1.setBudget("$10,000");
         event1.setName("Teambuilding Trip");
         event1.setDescription("Take the IT department on a teambuilding getaway in Hawaii");
-        //        event1.setUserList(new ArrayList<>(Arrays.asList(new UserEvents(user1, event1))));
         event1.getUserList().add(new UserEvents(user1, event1));
 
 
         Task task1 = new Task("Reservations","Make Hotel Reservations", "John", false, "8-1-2019","Service", event1);
-        //        event1.getTasklist().add(task1);
         Task task2 = new Task("RSVP", "Have all employees either RSVP or opt out", "Michelle", false, "7-15-2019", "Task", event1);
-        //event1.getTasklist().add(task2);
-        //event1.getUserList().add(new UserEvents(user1, event1));
-        //eventService.create(event1);
+
         Purchase purchase1 = new Purchase("Reserve Hotel Rooms", "Mariott Hotel", "Judy", "judyisawesome@email.com", "$3,000", 0, task1);
 
 
@@ -106,26 +93,10 @@ public class SeedData implements CommandLineRunner {
         taskRepository.save(task1);
         taskRepository.save(task2);
         purchaseRepository.save(purchase1);
-        /*eventService.create(event1);
-        taskService.createNewTask(task1);
-        taskService.createNewTask(task2);
-        purchaseService.create(purchase1);
-*/
+
 
 
     }
 }
-/*        this.name = name;
-        this.description = description;
-        this.assigned = assigned;
-        this.completed = completed;
-        this.duedate = duedate;
-        this.category = category;
-        this.event = event;
-        this.purchase = purchase;*/
 
-/*        this.description = description;
-        this.vendorname = vendorname;
-        this.pointofcontact = pointofcontact;
-        this.email = email;
-        this.price = price;*/
+

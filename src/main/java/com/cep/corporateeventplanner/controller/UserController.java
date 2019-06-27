@@ -73,7 +73,7 @@ public class UserController {
     @PostMapping(value = "/login")
     public ResponseEntity<?> handleSignin(@RequestBody User user, HttpServletRequest request){
         String username = user.getUsername();
-        user.setPassword(user.getPassword());
+        //user.setPassword(user.getPassword());
         String password = user.getPassword();
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);

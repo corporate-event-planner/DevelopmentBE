@@ -5,6 +5,7 @@ import com.cep.corporateeventplanner.model.Event;
 import com.cep.corporateeventplanner.model.User;
 import com.cep.corporateeventplanner.model.UserEvents;
 import com.cep.corporateeventplanner.repo.EventRepository;
+import com.cep.corporateeventplanner.repo.UserRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +28,10 @@ public class EventServiceImplTest
     @Autowired
     EventRepository eventRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
+
 
     @Before
     public void setUp() throws Exception
@@ -48,13 +53,13 @@ public class EventServiceImplTest
     @Test
     public void findById()
     {
-        assertEquals("Company A", eventService.findById(8).getCompanyname());
+        assertEquals("Company A", eventService.findById(6).getCompanyname());
     }
 
     @Test
     public void findByName()
     {
-        assertEquals("Teambuilding", eventService.findByName("Teambuilding"));
+        assertEquals("Teambuilding Trip", eventService.findByName("Teambuilding Trip").getName());
     }
 
     @Test
@@ -63,29 +68,18 @@ public class EventServiceImplTest
         Event newEvent = new Event();
         newEvent.setName("Christmas Party");
         newEvent.setBudget("20000");
+        newEvent.setDate("8-1-10");
         eventService.create(newEvent);
 
         assertEquals(2, eventService.findAll().size());
     }
 
-    @Test
-    public void updateEvent()
-    { ;
-    }
 
     @Test
     public void deleteEvent()
     {
-        eventService.deleteEvent(8);
+        eventService.deleteEvent(6);
         assertEquals(0, eventService.findAll().size());
     }
 
-    @Test
-    public void addUserToEvent()
-    {
-        User newUser = new User();
-        newUser.setUsername("Paul");
-        newUser.setCompanyname("Company A");
-        assertEquals(5, eventService.findAll().size());
-    }
 }
