@@ -51,7 +51,7 @@ public class EventController
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Event event = eventService.findById(eventid);
         User user = userService.findByUsername(userDetails.getUsername());
-//        return new ResponseEntity<>(event, HttpStatus.OK);
+        //        return new ResponseEntity<>(event, HttpStatus.OK);
         if (checkUserForEvent(user, event)){
             return new ResponseEntity<>(event, HttpStatus.OK);
         }else{

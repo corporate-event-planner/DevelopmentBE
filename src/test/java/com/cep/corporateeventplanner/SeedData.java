@@ -31,16 +31,12 @@ public class SeedData implements CommandLineRunner {
     PurchaseRepository purchaseRepository;
 /*    @Autowired
     EventService eventService;
-
     @Autowired
     TaskService taskService;
-
     @Autowired
     UserService userService;
-
     @Autowired
     RoleService roleService;
-
     @Autowired
     PurchaseService purchaseService;*/
 
@@ -91,12 +87,12 @@ public class SeedData implements CommandLineRunner {
         event1.setBudget("$10,000");
         event1.setName("Teambuilding Trip");
         event1.setDescription("Take the IT department on a teambuilding getaway in Hawaii");
-//        event1.setUserList(new ArrayList<>(Arrays.asList(new UserEvents(user1, event1))));
+        //        event1.setUserList(new ArrayList<>(Arrays.asList(new UserEvents(user1, event1))));
         event1.getUserList().add(new UserEvents(user1, event1));
 
 
         Task task1 = new Task("Reservations","Make Hotel Reservations", "John", false, "8-1-2019","Service", event1);
-//        event1.getTasklist().add(task1);
+        //        event1.getTasklist().add(task1);
         Task task2 = new Task("RSVP", "Have all employees either RSVP or opt out", "Michelle", false, "7-15-2019", "Task", event1);
         //event1.getTasklist().add(task2);
         //event1.getUserList().add(new UserEvents(user1, event1));

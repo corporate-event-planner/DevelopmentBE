@@ -1,11 +1,9 @@
 package com.cep.corporateeventplanner.controller;
 
-import com.cep.corporateeventplanner.model.Role;
-import com.cep.corporateeventplanner.model.User;
-import com.cep.corporateeventplanner.model.UserRoles;
+import com.cep.corporateeventplanner.model.*;
 import com.cep.corporateeventplanner.service.RoleService;
 import com.cep.corporateeventplanner.service.UserService;
-import io.swagger.annotations.Authorization;
+import io.swagger.annotations.*;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,7 +47,11 @@ public class UserController {
     @Autowired
     TokenStore tokenStore;
 
-
+    @ApiOperation(value = "Handle sign up of a new user", response = User.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfully create new user", response = User.class),
+            @ApiResponse(code = 404, message = "Could not create user", response = ErrorDetail.class)
+    })
     @PostMapping(value = "/signup")
     public ResponseEntity<?> handleSignup(@RequestBody User user){
         Role role = roleService.findByName("USER");
@@ -62,6 +64,12 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "sign in of a user", response = User.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfully logged in", response = User.class),
+            @ApiResponse(code = 401, message = "User not authorized", response = ErrorDetail.class),
+            @ApiResponse(code = 404, message = "User not found", response = ErrorDetail.class)
+    })
     @PostMapping(value = "/login")
     public ResponseEntity<?> handleSignin(@RequestBody User user, HttpServletRequest request){
         String username = user.getUsername();
@@ -88,6 +96,10 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "Handle the logging out of a user", response = void.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully logged out", response = void.class)
+    })
     @GetMapping(value = "/oauth/revoke-token")
     public void logout(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
@@ -98,7 +110,11 @@ public class UserController {
             tokenStore.removeAccessToken(accessToken);
         }
     }
-
+    @ApiOperation(value = "Get the current user", response = void.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfully accessed the user info", response = User.class),
+            @ApiResponse(code = 500, message = "Failed to access user info", response = ErrorDetail.class)
+    })
     @GetMapping(value = "/users/me")
     public ResponseEntity<?> getCurrentUser(Authentication authentication){
         UserDetails principal = (UserDetails) authentication.getPrincipal();
@@ -106,6 +122,11 @@ public class UserController {
         return new ResponseEntity<>(userService.findByUsername(username), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Update a current user", response = void.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfully updated user", response = void.class),
+            @ApiResponse(code = 500, message = "Failed to update user", response = ErrorDetail.class)
+    })
     @PutMapping(value = "/user/{id}")
     public ResponseEntity<?> updateUser(HttpServletRequest request,
                                         @RequestBody
@@ -116,7 +137,11 @@ public class UserController {
         userService.update(updateUser, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    @ApiOperation(value = "Delete a current user", response = void.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Succesfully deleted ", response = void.class),
+            @ApiResponse(code = 500, message = "Failed to delete user", response = ErrorDetail.class)
+    })
     @DeleteMapping("/user/{id}")
     public ResponseEntity<?> deleteUserById(HttpServletRequest request,
                                             @PathVariable

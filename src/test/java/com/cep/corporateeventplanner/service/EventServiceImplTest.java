@@ -48,7 +48,7 @@ public class EventServiceImplTest
     @Test
     public void findByName()
     {
-//        assertEquals("Teambuilding", eventService.findByName("Teambuilding"));
+                assertEquals("Teambuilding", eventService.findByName("Teambuilding"));
     }
 
     @Test
